@@ -25,6 +25,7 @@ public class SensitiveFilter {
     // 根节点
     private TrieNode rootNode = new TrieNode();
 
+    //初始化方法，再调用构造器方法
     @PostConstruct
     public void init() {
         try (
@@ -74,7 +75,6 @@ public class SensitiveFilter {
         if (StringUtils.isBlank(text)) {
             return null;
         }
-
         // 指针1
         TrieNode tempNode = rootNode;
         // 指针2
