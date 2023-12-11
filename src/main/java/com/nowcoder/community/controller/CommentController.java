@@ -1,5 +1,6 @@
 package com.nowcoder.community.controller;
 
+import com.nowcoder.community.enent.EventProducer;
 import com.nowcoder.community.entity.Comment;
 import com.nowcoder.community.entity.DiscussPost;
 import com.nowcoder.community.entity.Event;
@@ -25,8 +26,8 @@ public class CommentController implements CommunityConstant {
     @Autowired
     private HostHolder hostHolder;
 
-//    @Autowired
-//    private EventProducer eventProducer;
+    @Autowired
+    private EventProducer eventProducer;
 
     @Autowired
     private DiscussPostService discussPostService;
@@ -41,21 +42,24 @@ public class CommentController implements CommunityConstant {
         comment.setCreateTime(new Date());
         commentService.addComment(comment);
 
-//        // 触发评论事件
-//        Event event = new Event()
-//                .setTopic(TOPIC_COMMENT)
-//                .setUserId(hostHolder.getUser().getId())
-//                .setEntityType(comment.getEntityType())
-//                .setEntityId(comment.getEntityId())
-//                .setData("postId", discussPostId);
-//        if (comment.getEntityType() == ENTITY_TYPE_POST) {
-//            DiscussPost target = discussPostService.findDiscussPostById(comment.getEntityId());
-//            event.setEntityUserId(target.getUserId());
-//        } else if (comment.getEntityType() == ENTITY_TYPE_COMMENT) {
-//            Comment target = commentService.findCommentById(comment.getEntityId());
-//            event.setEntityUserId(target.getUserId());
-//        }
-//        eventProducer.fireEvent(event);
+        //触发评论事件
+        Event event  = new Event()
+                .setTopic(TOPIC_COMMENT)
+                .setUserId(hostHolder.getUser().getId())
+                .setEntityType(comment.getEntityType())
+                .setEntityId(comment.getEntityId())
+                .setData("postId", discussPostId);
+        //评论可能是帖子或者评论
+        if (comment.getEntityType() == ENTITY_TYPE_POST){
+            DiscussPost target = discussPostService.findDiscussPostById(comment.getEntityId());
+            event.setEntityUserId(target.getUserId());
+        }else if (comment.getEntityType() == ENTITY_TYPE_COMMENT){
+            Comment target = commentService.findCommentById(comment.getEntityId());
+            event.setEntityUserId(target.getUserId());
+        }
+
+        eventProducer.fireEvent(event);
+
 //
 //        if (comment.getEntityType() == ENTITY_TYPE_POST) {
 //            // 触发发帖事件
