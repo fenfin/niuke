@@ -1,7 +1,6 @@
 package com.nowcoder.community.controller;
 
-import com.jhlabs.image.TileImageFilter;
-import com.nowcoder.community.enent.EventProducer;
+import com.nowcoder.community.event.EventProducer;
 import com.nowcoder.community.entity.Event;
 import com.nowcoder.community.entity.User;
 import com.nowcoder.community.service.LikeService;
@@ -37,7 +36,7 @@ public class LikeController implements CommunityConstant {
 
     @RequestMapping(path = "/like", method = RequestMethod.POST)
     @ResponseBody
-    public String  like(int  entityType, int entityId, int entityUserId, int postId){
+    public String like(int  entityType, int entityId, int entityUserId, int postId){
         User user = hostHolder.getUser();
 
         //点赞

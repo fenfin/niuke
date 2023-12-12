@@ -1,6 +1,6 @@
 package com.nowcoder.community.controller;
 
-import com.nowcoder.community.enent.EventProducer;
+import com.nowcoder.community.event.EventProducer;
 import com.nowcoder.community.entity.Comment;
 import com.nowcoder.community.entity.DiscussPost;
 import com.nowcoder.community.entity.Event;
@@ -61,18 +61,18 @@ public class CommentController implements CommunityConstant {
         eventProducer.fireEvent(event);
 
 //
-//        if (comment.getEntityType() == ENTITY_TYPE_POST) {
-//            // 触发发帖事件
-//            event = new Event()
-//                    .setTopic(TOPIC_PUBLISH)
-//                    .setUserId(comment.getUserId())
-//                    .setEntityType(ENTITY_TYPE_POST)
-//                    .setEntityId(discussPostId);
-//            eventProducer.fireEvent(event);
-//            // 计算帖子分数
+        if (comment.getEntityType() == ENTITY_TYPE_POST) {
+            // 触发发帖事件
+            event = new Event()
+                    .setTopic(TOPIC_PUBLISH)
+                    .setUserId(comment.getUserId())
+                    .setEntityType(ENTITY_TYPE_POST)
+                    .setEntityId(discussPostId);
+            eventProducer.fireEvent(event);
+            // 计算帖子分数
 //            String redisKey = RedisKeyUtil.getPostScoreKey();
 //            redisTemplate.opsForSet().add(redisKey, discussPostId);
-//        }
+        }
 
         //跳转到帖子详情页面
         return "redirect:/discuss/detail/" + discussPostId;
