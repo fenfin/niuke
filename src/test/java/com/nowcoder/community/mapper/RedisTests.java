@@ -240,4 +240,7 @@ public class RedisTests {
         System.out.println(redisTemplate.opsForValue().getBit(redisKey, 6));
     }
 
+    //统计20万个重复数据的独立总数
+
+
 }

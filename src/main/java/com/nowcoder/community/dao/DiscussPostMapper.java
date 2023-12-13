@@ -28,4 +28,9 @@ public interface DiscussPostMapper {
 
     //更新帖子是数量
     int updateCommentCount(int id, int commentCount);
+
+    //更新类型置顶、加精
+    int updateType(int id,int type);
+
+    int updateStatus(int id, int status);
 }
